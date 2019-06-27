@@ -7,9 +7,21 @@ namespace DotaNet.Classes.Gamers
     /// </summary>
     public struct Relative
     {
+        /// <summary>
+        /// Игрок, с которым существует такая статистика
+        /// </summary>
         public Gamer Gamer { get; set; }
+        /// <summary>
+        /// Победы
+        /// </summary>
         public int Wins { get; set; }
+        /// <summary>
+        /// Поражения
+        /// </summary>
         public int Looses { get; set; }
+        /// <summary>
+        /// Получает винрейт
+        /// </summary>
         public double Winrate
         {
             get
