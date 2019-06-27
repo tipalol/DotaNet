@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace DotaNet.Classes.Gamers
 {
     public class Team
     {
-        string name;
+        string Name { get; set; }
+        List<Gamer> Gamers { get; set; }
         public Team(string name)
         {
-            this.name = name;
+            Name = name;
         }
     }
 }

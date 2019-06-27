@@ -3,12 +3,12 @@ namespace DotaNet.Classes.Gamers
 {
     public class Match
     {
-        Team left;
-        Team right;
+        Team Left { get; set; }
+        Team Right { get; set; }
         public Match(Team left, Team right)
         {
-            this.left = left;
-            this.right = right;
+            Left = left;
+            Right = right;
         }
     }
 }
