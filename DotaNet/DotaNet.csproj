@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Classes\" />
+    <Folder Include="Classes\Parser\" />
     <Folder Include="Classes\Gamers\" />
     <Folder Include="Classes\Database\" />
   </ItemGroup>
