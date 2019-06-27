@@ -1,4 +1,5 @@
 ﻿using System;
+using DotaNet.Classes.Parser;
 
 namespace DotaNet
 {
@@ -6,7 +7,7 @@ namespace DotaNet
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+              
         }
     }
 }
