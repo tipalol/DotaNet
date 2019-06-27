@@ -6,6 +6,7 @@ namespace DotaNet.Classes.Gamers
     /// </summary>
     public class Match
     {
+        public string URL;
         /// <summary>
         /// Левая команда-участник
         /// </summary>
@@ -19,5 +20,6 @@ namespace DotaNet.Classes.Gamers
             Left = left;
             Right = right;
         }
+        public Match(string URL) { this.URL = URL; }
     }
 }

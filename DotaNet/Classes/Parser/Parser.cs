@@ -14,6 +14,10 @@ namespace DotaNet.Classes.Parser
     /// </summary>
     public class Parser
     {
+        private const string site = "https://dota2.ru";
+        private const string startUrl = "/esport/matches/?page=30";
+        private const string ClassMatchName = "esport-match-single";
+        private const string ClassNextPage = "pagination_next";
         /// <summary>
         /// Получает документ
         /// </summary>
@@ -52,10 +56,10 @@ namespace DotaNet.Classes.Parser
             return document;
         }
         /// <summary>
-        /// Функция получает узлы матчей
+        /// Функция возвращает ссылки на матчи
         /// </summary>
-        /// <returns>Узлы матчей</returns>
-        private List<HtmlNode> GetMatchesNode()
+        /// <returns>Ссылки матчей</returns>
+        private List<HtmlNode> GetMatchesNode()//НЕ ЮЗАЕТСЯ
         {
             List<HtmlNode> result = new List<HtmlNode>();
             foreach (HtmlNode node in Document.DocumentNode.SelectNodes("//div[@class=team-vs-team"))
@@ -69,7 +73,33 @@ namespace DotaNet.Classes.Parser
         /// <returns>Матчи из узлов</returns>
         private List<Match> GetMatches(List<HtmlNode> nodes)
         {
-            throw new NotImplementedException();
+            HtmlDocument page = LoadPage(site + startUrl);
+
+            List<Match> matchsURL = new List<Match>();
+
+            do
+            {
+                foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
+                {
+                    string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
+                    matchsURL.Add(new Match(site+URL));
+                }
+
+                try
+                {
+                    HtmlNode nextPage = page.DocumentNode.SelectSingleNode("//div[@class='" + ClassNextPage + "']").ChildNodes.FindFirst("a");
+                    string URL = nextPage.Attributes["href"].Value;
+
+                    page = LoadPage(site + URL);
+                }
+                catch
+                {
+                    break;
+                }
+
+            } while (true);
+
+            return matchsURL;
         }
         /// <summary>
         /// Получает узлы с игроками
@@ -87,6 +117,8 @@ namespace DotaNet.Classes.Parser
         {
             throw new NotImplementedException();
         }
+
+
         public Parser()
         {
         }

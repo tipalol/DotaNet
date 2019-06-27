@@ -6,15 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Classes\Parser\" />
     <Folder Include="Classes\Gamers\" />
     <Folder Include="Classes\Database\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.8" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Classes\Parser\Parser.cs" />
   </ItemGroup>
 </Project>
