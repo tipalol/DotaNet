@@ -71,7 +71,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="nodes">Узлы матчей</param>
         /// <returns>Матчи из узлов</returns>
-        private List<Match> GetMatches(List<HtmlNode> nodes)
+        private List<Match> GetMatches()
         {
             HtmlDocument page = LoadPage(site + startUrl);
 
@@ -117,7 +117,14 @@ namespace DotaNet.Classes.Parser
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Начинает парсинг
+        /// </summary>
+        /// <returns></returns>
+        public List<Match> Pers()
+        {
+            return GetMatches();
+        }
 
         public Parser()
         {
