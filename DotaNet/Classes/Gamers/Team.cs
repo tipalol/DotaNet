@@ -54,7 +54,8 @@ namespace DotaNet.Classes.Gamers
             {
                 foreach (Gamer gamer in gamers)
                 {
-                    Gamers.Add(gamer);
+                    if (gamer != null)
+                        Gamers.Add(gamer);
                 }
             }
         }
