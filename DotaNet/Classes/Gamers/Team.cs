@@ -14,7 +14,7 @@ namespace DotaNet.Classes.Gamers
         /// Название команды
         /// </summary>
         [DataMember]
-        string Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Список игроков, играющих в этой команде
         /// </summary>

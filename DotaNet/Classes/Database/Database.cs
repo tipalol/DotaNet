@@ -32,16 +32,39 @@ namespace DotaNet.Classes.Database
         public void AddMatch(Match match)
         {
             Matches.Add(match);
-            if (Teams.Contains(match.Left))
+
+            Team foundTeam = Teams.Find(u => u.Name == match.Left.Name);
+            if (foundTeam == null)
+                Teams.Add(match.Left);
+
+            foundTeam = Teams.Find(u => u.Name == match.Right.Name);
+            if (foundTeam == null)
+                Teams.Add(match.Right);
+
+            foreach (Gamer gamer in match.Right.Gamers)
             {
+                Gamer foundGamer = Gamers.Find(u => u.Name == gamer.Name);
+                if (foundGamer == null)
+                    Gamers.Add(gamer);
+                else
+                {
+                    foundGamer.AddWin(gamer.Wins);
+                    foundGamer.AddLoose(gamer.Looses);
+                }
+                    
 
             }
-            Teams.Add(match.Left);
-            Teams.Add(match.Right);
-            foreach (Gamer gamer in match.Right.Gamers)
-                Gamers.Add(gamer);
-            foreach (Gamer gamer in match.Left.Gamers)
-                Gamers.Add(gamer);
+
+            foreach (Gamer gamer in match.Left.Gamers) {
+                Gamer foundAnotherGamer = Gamers.Find(u => u.Name == gamer.Name);
+                if (foundAnotherGamer == null)
+                    Gamers.Add(gamer);
+                else
+                {
+                    foundAnotherGamer.AddWin(gamer.Wins);
+                    foundAnotherGamer.AddLoose(gamer.Looses);
+                }
+            }
         }
         public Match GetMatch()
         {
