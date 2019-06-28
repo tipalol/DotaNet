@@ -58,6 +58,16 @@ namespace DotaNet.Classes.Parser
         #region Работа с матчем
 
         /// <summary>
+        /// Получитть название команды
+        /// </summary>
+        /// <param name="team">Узел с командой</param>
+        /// <returns></returns>
+        private static string GetTeamName(HtmlNode team)
+        {
+            string teamName = team.SelectSingleNode(".//span[@class='title']").InnerText.Replace("\t", "");
+            return teamName;
+        }
+        /// <summary>
         /// Получает команды
         /// </summary>
         /// <param name="URL">Ссылка на матч</param>
@@ -68,28 +78,44 @@ namespace DotaNet.Classes.Parser
 
             //left side
             HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
-            string leftTeamName = left.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
-            var leftGamers = left.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");  //Выбор всех героев слева
-            string[] leftGamersName = GetNameGamers(leftGamers);
+            string leftTeamName = GetTeamName(left);
+            Gamer[] leftGamers = GetGamers(left);
 
             //rigth side
             HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
-            string rightTeamName = right.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
-            var rightGamers = right.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
-            string[] rightGamersName = GetNameGamers(rightGamers);
+            string rightTeamName = GetTeamName(right);
+            Gamer[] rightGamersName = GetGamers(right);
 
             return new Team[2];
         }
-        private static string[] GetNameGamers(HtmlNodeCollection nodes)
+        /// <summary>
+        /// Получить игроков команды
+        /// </summary>
+        /// <param name="team">Узел с командой</param>
+        /// <returns>Игроки</returns>
+        private static Gamer[] GetGamers(HtmlNode team)
         {
-            string[] gamers = new string[5];
+            var  gamersNode=team.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
+
+            Gamer[] gamers = new Gamer[5];
             int i = 0;
-            foreach(HtmlNode gamer in nodes)
+            foreach(HtmlNode gamer in gamersNode)
             {
-                gamers[i] = gamer.ChildNodes.FindFirst("a").ChildNodes.FindFirst("b").InnerText;
+                gamers[i] = GetGamer(gamer);
                 i++;
             }
             return gamers;
+        }
+        /// <summary>
+        /// Получитть игрока из узла
+        /// </summary>
+        /// <param name="gamer">узел с игроком</param>
+        /// <returns></returns>
+        private static Gamer GetGamer(HtmlNode gamer)
+        {
+            string name= gamer.ChildNodes.FindFirst("a").ChildNodes.FindFirst("b").InnerText;
+            Gamer result = new Gamer(name);
+            return result;
         }
 
         #endregion
