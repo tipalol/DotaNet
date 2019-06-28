@@ -1,20 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DotaNet.Classes.Gamers
 {
     /// <summary>
     /// Класс реализует игрока
     /// </summary>
+    [DataContract]
     public class Gamer
     {
         /// <summary>
+        /// Имя
+        /// </summary>
+        [DataMember]
+        string Name { get; set; }
+        /// <summary>
         /// Победы
         /// </summary>
+        [DataMember]
         int Wins { get; set; }
         /// <summary>
         /// Поражения
         /// </summary>
+        [DataMember]
         int Looses { get; set; }
         /// <summary>
         /// Винрейт
@@ -29,10 +38,12 @@ namespace DotaNet.Classes.Gamers
         /// <summary>
         /// Информация о совместных играх с игроком
         /// </summary>
+        [DataMember]
         List<Relative> Bodies { get; set; }
         /// <summary>
         /// Информация об играх против игрока
         /// </summary>
+        [DataMember]
         List<Relative> Enemies { get; set; }
         /// <summary>
         /// Добавляет информацию о совместных играх с игроком
@@ -53,8 +64,9 @@ namespace DotaNet.Classes.Gamers
         {
             Enemies.Add(new Relative(enemy, wins, looses));
         }
-        public Gamer(int wins = 0, int looses = 0)
+        public Gamer(string name, int wins = 0, int looses = 0)
         {
+            Name = name;
             Wins = wins;
             Looses = looses;
         }

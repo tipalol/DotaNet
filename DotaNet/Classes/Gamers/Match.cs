@@ -1,19 +1,25 @@
 ﻿using System;
+using System.Runtime.Serialization;
+
 namespace DotaNet.Classes.Gamers
 {
     /// <summary>
     /// Класс содержит информацию о прошедшем матче
     /// </summary>
+    [DataContract]
     public class Match
     {
+        [DataMember]
         public string URL;
         /// <summary>
         /// Левая команда-участник
         /// </summary>
+        [DataMember]
         Team Left { get; set; }
         /// <summary>
         /// Правая команда участник
         /// </summary>
+        [DataMember]
         Team Right { get; set; }
         public Match(Team left, Team right)
         {
@@ -33,5 +39,6 @@ namespace DotaNet.Classes.Gamers
                 URL = null;
             }
         }
+        public Match() { }
     }
 }
