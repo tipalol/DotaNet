@@ -129,7 +129,11 @@ namespace DotaNet.Classes.Parser
             List<Gamer> gamers = new List<Gamer>();
             foreach(HtmlNode gamer in gamersNode)
             {
-                gamers.Add(GetGamer(gamer));
+                try
+                {
+                    gamers.Add(GetGamer(gamer));
+                }
+                catch { }
             }
             return gamers.ToArray();
         }
@@ -143,7 +147,7 @@ namespace DotaNet.Classes.Parser
             string name= gamer.ChildNodes.FindFirst("a")?.ChildNodes.FindFirst("b").InnerText;
             if(name==null)
             {
-                throw new Exception();
+                throw new GamerEmptyException();
             }
             Gamer result = new Gamer(name);
             return result;
@@ -217,6 +221,18 @@ namespace DotaNet.Classes.Parser
                 matches.AddRange(GetMatches(page));
 
             } while ((page=NextPage(page))!=null);
+
+            return matches;
+        }
+
+        public static List<Match> ParseTest()
+        {
+            string testURL = startUrl;
+            HtmlDocument page = LoadPage(site + testURL);
+
+            List<Match> matches = new List<Match>();
+
+            matches.AddRange(GetMatches(page));
 
             return matches;
         }

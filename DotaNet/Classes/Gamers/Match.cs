@@ -29,23 +29,15 @@ namespace DotaNet.Classes.Gamers
         public Match(string URL)
         {
             this.URL = URL;
-            //Получение результата
-            //MatchResult matchResult = Parser.Parser.GetMatchResult(URL);
-            try
-            {
-                /*
-                Left = matchResult.Left;
-                Right = matchResult.Right;
-                if (matchResult.ResultOfLeft > matchResult.ResultOfRight)
-                    Left.AddWin();
-                if (matchResult.ResultOfRight > matchResult.ResultOfLeft)
-                    Right.AddWin();
-                */
-            }
-            catch
-            {
-                URL = null;
-            }
+            MatchResult matchResult = Parser.Parser.GetMatchResult(URL);
+
+            Left = matchResult.Left;
+            Right = matchResult.Right;
+            if (matchResult.ResultOfLeft > matchResult.ResultOfRight)
+                Left.AddWin();
+            if (matchResult.ResultOfRight > matchResult.ResultOfLeft)
+                Right.AddWin();
+                
         }
         public Match() { }
     }
