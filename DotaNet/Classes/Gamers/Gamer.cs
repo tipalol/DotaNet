@@ -73,7 +73,7 @@ namespace DotaNet.Classes.Gamers
             Wins += wins;
         }
         /// <summary>
-        /// Добавляет поражения игроку
+        /// Добавляет поражение(я) игроку
         /// </summary>
         /// <param name="looses">Поражения</param>
         public void AddLoose(int looses = 1)
