@@ -25,7 +25,6 @@ namespace DotaNet.Classes.Database
             
 
             StreamReader streamReader = new StreamReader(stream);
-            Console.WriteLine(streamReader.ReadToEnd());
             stream.Close();
             return Encoding.UTF8.GetString(json, 0, json.Length);
         }
@@ -48,7 +47,6 @@ namespace DotaNet.Classes.Database
 
 
             StreamReader streamReader = new StreamReader(stream);
-            Console.WriteLine(streamReader.ReadToEnd());
             stream.Close();
             return Encoding.UTF8.GetString(json, 0, json.Length);
         }

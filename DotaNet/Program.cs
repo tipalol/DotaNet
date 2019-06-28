@@ -10,7 +10,7 @@ namespace DotaNet
     {
         static void Main(string[] args)
         {
-            List<Match> matches =  Parser.Parse();
+            List<Match> matches = Parser.Parse();
 
             foreach (Match match in matches)
                 Database.GetInstance().AddMatch(match);

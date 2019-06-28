@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace DotaNet.Classes.Parser
 {
-    public class GamerEmptyException:ApplicationException
+    public class MatchParseException:ApplicationException
     {
 
     }
@@ -79,24 +79,31 @@ namespace DotaNet.Classes.Parser
         /// <returns></returns>
         public static MatchResult GetMatchResult(string URL)
         {
-            HtmlDocument document = LoadPage(URL);
+            try
+            {
+                HtmlDocument document = LoadPage(URL);
 
-            //left side
-            HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
-            string leftTeamName = GetTeamName(left);
-            Gamer[] leftGamers = GetGamers(left);
-            Team leftTeam = new Team(leftTeamName, leftGamers);
+                //left side
+                HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
+                string leftTeamName = GetTeamName(left);
+                Gamer[] leftGamers = GetGamers(left);
+                Team leftTeam = new Team(leftTeamName, leftGamers);
 
-            //rigth side
-            HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
-            string rightTeamName = GetTeamName(right);
-            Gamer[] rightGamers = GetGamers(right);
-            Team rightTeam = new Team(rightTeamName, rightGamers);
+                //rigth side
+                HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
+                string rightTeamName = GetTeamName(right);
+                Gamer[] rightGamers = GetGamers(right);
+                Team rightTeam = new Team(rightTeamName, rightGamers);
 
-            var score = GetScore(document);
+                var score = GetScore(document);
 
-            MatchResult matchResult = new MatchResult(leftTeam, rightTeam, score.left, score.right);
-            return matchResult;
+                MatchResult matchResult = new MatchResult(leftTeam, rightTeam, score.left, score.right);
+                return matchResult;
+            }
+            catch
+            {
+                throw new MatchParseException();
+            }
         }
         /// <summary>
         /// Получить счет игры
@@ -123,7 +130,7 @@ namespace DotaNet.Classes.Parser
             var  gamersNode=team.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
             if (gamersNode == null)
             {
-                throw new GamerEmptyException();
+                throw new MatchParseException();
             }
 
             List<Gamer> gamers = new List<Gamer>();
@@ -147,7 +154,7 @@ namespace DotaNet.Classes.Parser
             string name= gamer.ChildNodes.FindFirst("a")?.ChildNodes.FindFirst("b").InnerText;
             if(name==null)
             {
-                throw new GamerEmptyException();
+                throw new MatchParseException();
             }
             Gamer result = new Gamer(name);
             return result;
@@ -183,7 +190,7 @@ namespace DotaNet.Classes.Parser
                     Match newMatch = GetMatch(node);
                     matches.Add(GetMatch(node));
                 }
-                catch (GamerEmptyException) { }
+                catch (MatchParseException) { }
             }
             return matches;
         }
