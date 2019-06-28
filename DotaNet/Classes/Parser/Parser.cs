@@ -27,7 +27,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="url">Адресс загружаемой страницы</param>
         /// <returns>Содержимое страницы</returns>
-        public HtmlDocument LoadPage(string url)
+        public static HtmlDocument LoadPage(string url)
         {
             var result = "";
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -55,41 +55,70 @@ namespace DotaNet.Classes.Parser
             return document;
         }
 
+        #region Работа с матчем
 
+        /// <summary>
+        /// Получитть название команды
+        /// </summary>
+        /// <param name="team">Узел с командой</param>
+        /// <returns></returns>
+        private static string GetTeamName(HtmlNode team)
+        {
+            string teamName = team.SelectSingleNode(".//span[@class='title']").InnerText.Replace("\t", "");
+            return teamName;
+        }
         /// <summary>
         /// Получает команды
         /// </summary>
         /// <param name="URL">Ссылка на матч</param>
         /// <returns></returns>
-        public Team[] GetTeams(string URL)
+        public static Team[] GetTeams(string URL)
         {
             HtmlDocument document = LoadPage(URL);
 
             //left side
             HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
-            string leftTeamName = left.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
-            var leftGamers = left.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");  //Выбор всех героев слева
-            string[] leftGamersName = GetNameGamers(leftGamers);
+            string leftTeamName = GetTeamName(left);
+            Gamer[] leftGamers = GetGamers(left);
 
             //rigth side
             HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
-            string rightTeamName = right.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
-            var rightGamers = right.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
-            string[] rightGamersName = GetNameGamers(rightGamers);
+            string rightTeamName = GetTeamName(right);
+            Gamer[] rightGamersName = GetGamers(right);
 
             return new Team[2];
         }
-        private string[] GetNameGamers(HtmlNodeCollection nodes)
+        /// <summary>
+        /// Получить игроков команды
+        /// </summary>
+        /// <param name="team">Узел с командой</param>
+        /// <returns>Игроки</returns>
+        private static Gamer[] GetGamers(HtmlNode team)
         {
-            string[] gamers = new string[5];
+            var  gamersNode=team.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
+
+            Gamer[] gamers = new Gamer[5];
             int i = 0;
-            foreach(HtmlNode gamer in nodes)
+            foreach(HtmlNode gamer in gamersNode)
             {
-                gamers[i] = gamer.ChildNodes.FindFirst("a").ChildNodes.FindFirst("b").InnerText;
+                gamers[i] = GetGamer(gamer);
                 i++;
             }
             return gamers;
         }
+        /// <summary>
+        /// Получитть игрока из узла
+        /// </summary>
+        /// <param name="gamer">узел с игроком</param>
+        /// <returns></returns>
+        private static Gamer GetGamer(HtmlNode gamer)
+        {
+            string name= gamer.ChildNodes.FindFirst("a").ChildNodes.FindFirst("b").InnerText;
+            Gamer result = new Gamer(name);
+            return result;
+        }
+
+        #endregion
 
         #region Работа с страницей матчей
 
@@ -98,7 +127,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="node">узел с матчем</param>
         /// <returns></returns>
-        private Match GetMatch(HtmlNode node)
+        private static Match GetMatch(HtmlNode node)
         {
             string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
             return new Match(site + URL);
@@ -108,7 +137,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="page">Документ с матчами</param>
         /// <returns>Матчи из узлов</returns>
-        private List<Match> GetMatches(HtmlDocument page)
+        private static List<Match> GetMatches(HtmlDocument page)
         {
             List<Match> matches = new List<Match>();
             foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
@@ -122,7 +151,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="page">текущая страница</param>
         /// <returns>Следующая страница или null</returns>
-        private HtmlDocument NextPage(HtmlDocument page)
+        private static HtmlDocument NextPage(HtmlDocument page)
         {
             HtmlDocument nextPage;
             HtmlNode nextPageNode = page.DocumentNode.SelectSingleNode("//div[@class='" + ClassNextPage + "']");
@@ -140,7 +169,7 @@ namespace DotaNet.Classes.Parser
         /// Начинает парсинг
         /// </summary>
         /// <returns></returns>
-        public List<Match> Parse()
+        public static List<Match> Parse()
         {
             HtmlDocument page = LoadPage(site + startUrl);
 
@@ -156,9 +185,5 @@ namespace DotaNet.Classes.Parser
         }
 
         #endregion
-
-        public Parser()
-        {
-        }
     }
 }

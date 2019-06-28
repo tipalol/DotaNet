@@ -29,10 +29,9 @@ namespace DotaNet.Classes.Gamers
         public Match(string URL)
         {
             this.URL = URL;
-            Parser.Parser parser = new Parser.Parser();
             try
             {
-                parser.GetTeams(URL);
+                Parser.Parser.GetTeams(URL);
             }
             catch
             {
