@@ -3,6 +3,7 @@ using DotaNet.Classes.Gamers;
 using DotaNet.Classes.Database;
 using DotaNet.Classes.Parser;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DotaNet
 {

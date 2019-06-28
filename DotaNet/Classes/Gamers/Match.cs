@@ -21,11 +21,11 @@ namespace DotaNet.Classes.Gamers
         /// </summary>
         [DataMember]
         public Team Right { get; set; }
+        [DataMember]
+        public MatchResult result { get; set; }
         /// <summary>
         /// Результат матча
         /// </summary>
-        [DataMember]
-        public MatchResult Result { get; set; }
         public Match(Team left, Team right)
         {
             Left = left;
@@ -36,6 +36,7 @@ namespace DotaNet.Classes.Gamers
             this.URL = URL;
             //Получение результата матча
             MatchResult matchResult = Parser.Parser.GetMatchResult(URL);
+            result = matchResult;
 
             Left = matchResult.Left;
             Right = matchResult.Right;

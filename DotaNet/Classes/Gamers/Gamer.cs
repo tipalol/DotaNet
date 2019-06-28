@@ -7,7 +7,7 @@ namespace DotaNet.Classes.Gamers
     /// <summary>
     /// Класс реализует игрока
     /// </summary>
-    [DataContract]
+    [DataContract(IsReference = false)]
     public class Gamer
     {
         /// <summary>
@@ -56,9 +56,9 @@ namespace DotaNet.Classes.Gamers
         /// <param name="wins">Победы</param>
         /// <param name="looses">Поражения</param>
         public void Addbody(Gamer body, int wins, int looses) {
-            var findBody = Bodies.Find(e => e.Gamer.Name == body.Name);
+            var findBody = Bodies.Find(e => e.GamerName == body.Name);
             if (findBody.isEmpty())
-                Bodies.Add(new Relative(body, wins, looses));
+                Bodies.Add(new Relative(body.Name, wins, looses));
             else
             {
                 findBody.Wins += wins;
@@ -74,9 +74,9 @@ namespace DotaNet.Classes.Gamers
         /// <param name="looses">Поражения</param>
         public void AddEnemy(Gamer enemy, int wins, int looses)
         {
-            var findEnemy = Enemies.Find(e => e.Gamer.Name == enemy.Name);
+            var findEnemy = Enemies.Find(e => e.GamerName == enemy.Name);
             if (findEnemy.isEmpty())
-                Enemies.Add(new Relative(enemy, wins, looses));
+                Enemies.Add(new Relative(enemy.Name, wins, looses));
             else
             {
                 findEnemy.Wins += wins;
