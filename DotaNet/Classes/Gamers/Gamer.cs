@@ -28,11 +28,15 @@ namespace DotaNet.Classes.Gamers
         /// <summary>
         /// Винрейт
         /// </summary>
-        double Winrate
+        public double Winrate
         {
             get
             {
-                return Wins / Looses;
+                if (Looses == 0)
+                    return 1;
+                if ((double)Wins / Looses > 1)
+                    return 1;
+                return (double)Wins / Looses;
             }
         }
         /// <summary>
@@ -52,7 +56,15 @@ namespace DotaNet.Classes.Gamers
         /// <param name="wins">Победы</param>
         /// <param name="looses">Поражения</param>
         public void Addbody(Gamer body, int wins, int looses) {
-            Bodies.Add(new Relative(body, wins, looses));
+            var findBody = Bodies.Find(e => e.Gamer.Name == body.Name);
+            if (findBody.isEmpty())
+                Bodies.Add(new Relative(body, wins, looses));
+            else
+            {
+                findBody.Wins += wins;
+                findBody.Looses += looses;
+            }
+                
         }
         /// <summary>
         /// Добавляет информацию об играх против игрока
@@ -62,7 +74,14 @@ namespace DotaNet.Classes.Gamers
         /// <param name="looses">Поражения</param>
         public void AddEnemy(Gamer enemy, int wins, int looses)
         {
-            Enemies.Add(new Relative(enemy, wins, looses));
+            var findEnemy = Enemies.Find(e => e.Gamer.Name == enemy.Name);
+            if (findEnemy.isEmpty())
+                Enemies.Add(new Relative(enemy, wins, looses));
+            else
+            {
+                findEnemy.Wins += wins;
+                findEnemy.Looses += looses;
+            }
         }
         /// <summary>
         /// Добавляет победу(ы) игроку

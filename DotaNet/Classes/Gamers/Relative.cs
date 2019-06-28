@@ -10,6 +10,12 @@ namespace DotaNet.Classes.Gamers
     [DataContract]
     public struct Relative
     {
+        public bool isEmpty()
+        {
+            if (Gamer == null)
+                return true;
+            return false;
+        }
         /// <summary>
         /// Игрок, с которым существует такая статистика
         /// </summary>
