@@ -7,7 +7,8 @@ namespace DotaNet
     {
         static void Main(string[] args)
         {
-              
+            Parser parser = new Parser();
+            parser.Parse();
         }
     }
 }

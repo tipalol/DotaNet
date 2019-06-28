@@ -18,6 +18,8 @@ namespace DotaNet.Classes.Parser
         private const string startUrl = "/esport/matches/?page=30";
         private const string ClassMatchName = "esport-match-single";
         private const string ClassNextPage = "pagination_next";
+        private const string ClassLeftTeam = "esport-match-view-map-single-side esport-match-view-map-single-side-left";
+        private const string ClassRightTeam = "esport-match-view-map-single-side esport-match-view-map-single-side-right";
         /// <summary>
         /// Получает документ
         /// </summary>
@@ -56,15 +58,38 @@ namespace DotaNet.Classes.Parser
             return document;
         }
         /// <summary>
-        /// Функция возвращает ссылки на матчи
+        /// Получает команды
         /// </summary>
-        /// <returns>Ссылки матчей</returns>
-        private List<HtmlNode> GetMatchesNode()//НЕ ЮЗАЕТСЯ
+        /// <param name="URL">Ссылка на матч</param>
+        /// <returns></returns>
+        public Team[] GetTeams(string URL)
         {
-            List<HtmlNode> result = new List<HtmlNode>();
-            foreach (HtmlNode node in Document.DocumentNode.SelectNodes("//div[@class=team-vs-team"))
-                result.Add(node);
-            return result;
+            HtmlDocument document = LoadPage(URL);
+
+            //left side
+            HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
+            string leftTeamName = left.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
+            var leftGamers = left.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");  //Выбор всех героев слева
+            string[] leftGamersName = GetNameGamers(leftGamers);
+
+            //rigth side
+            HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
+            string rightTeamName = right.SelectSingleNode(".//span[@class='title']").InnerText.Replace(" ", "");
+            var rightGamers = right.SelectNodes(".//div[@class='esport-match-view-map-single-side-picks-single-info']");
+            string[] rightGamersName = GetNameGamers(rightGamers);
+
+            return new Team[2];
+        }
+        private string[] GetNameGamers(HtmlNodeCollection nodes)
+        {
+            string[] gamers = new string[5];
+            int i = 0;
+            foreach(HtmlNode gamer in nodes)
+            {
+                gamers[i] = gamer.ChildNodes.FindFirst("a").ChildNodes.FindFirst("b").InnerText;
+                i++;
+            }
+            return gamers;
         }
         /// <summary>
         /// Функция получает матчи из узлов
@@ -121,7 +146,7 @@ namespace DotaNet.Classes.Parser
         /// Начинает парсинг
         /// </summary>
         /// <returns></returns>
-        public List<Match> Pers()
+        public List<Match> Parse()
         {
             return GetMatches();
         }

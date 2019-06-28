@@ -20,6 +20,18 @@ namespace DotaNet.Classes.Gamers
             Left = left;
             Right = right;
         }
-        public Match(string URL) { this.URL = URL; }
+        public Match(string URL)
+        {
+            this.URL = URL;
+            Parser.Parser parser = new Parser.Parser();
+            try
+            {
+                parser.GetTeams(URL);
+            }
+            catch
+            {
+                URL = null;
+            }
+        }
     }
 }
