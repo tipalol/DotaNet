@@ -27,7 +27,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="url">Адресс загружаемой страницы</param>
         /// <returns>Содержимое страницы</returns>
-        public HtmlDocument LoadPage(string url)
+        public static HtmlDocument LoadPage(string url)
         {
             var result = "";
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -55,13 +55,14 @@ namespace DotaNet.Classes.Parser
             return document;
         }
 
+        #region Работа с матчем
 
         /// <summary>
         /// Получает команды
         /// </summary>
         /// <param name="URL">Ссылка на матч</param>
         /// <returns></returns>
-        public Team[] GetTeams(string URL)
+        public static Team[] GetTeams(string URL)
         {
             HtmlDocument document = LoadPage(URL);
 
@@ -79,7 +80,7 @@ namespace DotaNet.Classes.Parser
 
             return new Team[2];
         }
-        private string[] GetNameGamers(HtmlNodeCollection nodes)
+        private static string[] GetNameGamers(HtmlNodeCollection nodes)
         {
             string[] gamers = new string[5];
             int i = 0;
@@ -91,6 +92,8 @@ namespace DotaNet.Classes.Parser
             return gamers;
         }
 
+        #endregion
+
         #region Работа с страницей матчей
 
         /// <summary>
@@ -98,7 +101,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="node">узел с матчем</param>
         /// <returns></returns>
-        private Match GetMatch(HtmlNode node)
+        private static Match GetMatch(HtmlNode node)
         {
             string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
             return new Match(site + URL);
@@ -108,7 +111,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="page">Документ с матчами</param>
         /// <returns>Матчи из узлов</returns>
-        private List<Match> GetMatches(HtmlDocument page)
+        private static List<Match> GetMatches(HtmlDocument page)
         {
             List<Match> matches = new List<Match>();
             foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
@@ -122,7 +125,7 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="page">текущая страница</param>
         /// <returns>Следующая страница или null</returns>
-        private HtmlDocument NextPage(HtmlDocument page)
+        private static HtmlDocument NextPage(HtmlDocument page)
         {
             HtmlDocument nextPage;
             HtmlNode nextPageNode = page.DocumentNode.SelectSingleNode("//div[@class='" + ClassNextPage + "']");
@@ -140,7 +143,7 @@ namespace DotaNet.Classes.Parser
         /// Начинает парсинг
         /// </summary>
         /// <returns></returns>
-        public List<Match> Parse()
+        public static List<Match> Parse()
         {
             HtmlDocument page = LoadPage(site + startUrl);
 
@@ -156,9 +159,5 @@ namespace DotaNet.Classes.Parser
         }
 
         #endregion
-
-        public Parser()
-        {
-        }
     }
 }
