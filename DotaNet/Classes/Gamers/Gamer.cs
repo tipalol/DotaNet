@@ -64,6 +64,22 @@ namespace DotaNet.Classes.Gamers
         {
             Enemies.Add(new Relative(enemy, wins, looses));
         }
+        /// <summary>
+        /// Добавляет победу(ы) игроку
+        /// </summary>
+        /// <param name="wins">Победы</param>
+        public void AddWin(int wins = 1)
+        {
+            Wins += wins;
+        }
+        /// <summary>
+        /// Добавляет поражение(я) игроку
+        /// </summary>
+        /// <param name="looses">Поражения</param>
+        public void AddLoose(int looses = 1)
+        {
+            Looses += looses;
+        }
         public Gamer(string name, int wins = 0, int looses = 0)
         {
             Name = name;

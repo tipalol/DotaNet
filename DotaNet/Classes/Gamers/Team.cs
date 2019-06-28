@@ -27,6 +27,26 @@ namespace DotaNet.Classes.Gamers
         {
             Gamers.Add(gamer);
         }
+        /// <summary>
+        /// Добавляет победу всем участникам команды
+        /// </summary>
+        public void AddWin()
+        {
+            foreach (Gamer gamer in Gamers)
+            {
+                gamer.AddWin();
+            }
+        }
+        /// <summary>
+        /// Добавляет поражение всем участникам команды
+        /// </summary>
+        public void AddLooses()
+        {
+            foreach (Gamer gamer in Gamers)
+            {
+                gamer.AddLoose();
+            }
+        }
         public Team(string name)
         {
             Name = name;
