@@ -43,12 +43,12 @@ namespace DotaNet.Classes.Gamers
         /// Информация о совместных играх с игроком
         /// </summary>
         [DataMember]
-        List<Relative> Bodies { get; set; }
+        List<Relative> Bodies { get; set; } = new List<Relative>();
         /// <summary>
         /// Информация об играх против игрока
         /// </summary>
         [DataMember]
-        List<Relative> Enemies { get; set; }
+        List<Relative> Enemies { get; set; } = new List<Relative>();
         /// <summary>
         /// Добавляет информацию о совместных играх с игроком
         /// </summary>

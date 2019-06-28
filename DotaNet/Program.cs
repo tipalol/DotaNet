@@ -38,8 +38,15 @@ namespace DotaNet
 
                         Database.GetInstance().SaveData();
                         break;
+                    case 4:
+                        List<Match> testMatches = Parser.ParseTest();
+                        foreach (Match match in testMatches)
+                            Database.GetInstance().AddMatch(match);
+
+                        Database.GetInstance().SaveData();
+                        break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse");
+                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test");
                 input = getInt();
             }
 
