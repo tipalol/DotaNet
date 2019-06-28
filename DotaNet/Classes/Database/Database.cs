@@ -6,9 +6,9 @@ namespace DotaNet.Classes.Database
 {
     public class Database
     {
-        public List<Match> matches = new List<Match>();
-        public List<Gamer> gamers = new List<Gamer>();
-        public List<Team> teams = new List<Team>();
+        public static List<Match> matches = new List<Match>();
+        public static List<Gamer> gamers = new List<Gamer>();
+        public static List<Team> teams = new List<Team>();
         const string matchDataPath = "matches.json";
         public void AddMatch(Match match)
         {

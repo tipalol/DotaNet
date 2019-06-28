@@ -20,10 +20,8 @@ namespace DotaNet.Classes.Parser
         private const string ClassNextPage = "pagination_next";
         private const string ClassLeftTeam = "esport-match-view-map-single-side esport-match-view-map-single-side-left";
         private const string ClassRightTeam = "esport-match-view-map-single-side esport-match-view-map-single-side-right";
-        /// <summary>
-        /// Получает документ
-        /// </summary>
-        public HtmlDocument Document { get; private set; }
+        
+        
         /// <summary>
         /// Функция выгружает содержимое страницы
         /// </summary>
@@ -53,10 +51,11 @@ namespace DotaNet.Classes.Parser
 
             var document = new HtmlDocument();
             document.LoadHtml(result);
-            Document = document;
 
             return document;
         }
+
+
         /// <summary>
         /// Получает команды
         /// </summary>
@@ -91,56 +90,51 @@ namespace DotaNet.Classes.Parser
             }
             return gamers;
         }
+
+        #region Работа с страницей матчей
+
         /// <summary>
-        /// Функция получает матчи из узлов
+        /// Получить матч из узла
         /// </summary>
-        /// <param name="nodes">Узлы матчей</param>
+        /// <param name="node">узел с матчем</param>
+        /// <returns></returns>
+        private Match GetMatch(HtmlNode node)
+        {
+            string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
+            return new Match(site + URL);
+        }
+        /// <summary>
+        /// Функция получает матчи из документа
+        /// </summary>
+        /// <param name="page">Документ с матчами</param>
         /// <returns>Матчи из узлов</returns>
-        private List<Match> GetMatches()
+        private List<Match> GetMatches(HtmlDocument page)
         {
-            HtmlDocument page = LoadPage(site + startUrl);
-
-            List<Match> matchsURL = new List<Match>();
-
-            do
+            List<Match> matches = new List<Match>();
+            foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
             {
-                foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
-                {
-                    string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
-                    matchsURL.Add(new Match(site+URL));
-                }
-
-                try
-                {
-                    HtmlNode nextPage = page.DocumentNode.SelectSingleNode("//div[@class='" + ClassNextPage + "']").ChildNodes.FindFirst("a");
-                    string URL = nextPage.Attributes["href"].Value;
-
-                    page = LoadPage(site + URL);
-                }
-                catch
-                {
-                    break;
-                }
-
-            } while (true);
-
-            return matchsURL;
+                matches.Add(GetMatch(node));
+            }
+            return matches;
         }
         /// <summary>
-        /// Получает узлы с игроками
+        /// Перейти на следующую страницу
         /// </summary>
-        /// <returns>Узлы с игроками</returns>
-        private List<HtmlNode> GetGamersNodes()
+        /// <param name="page">текущая страница</param>
+        /// <returns>Следующая страница или null</returns>
+        private HtmlDocument NextPage(HtmlDocument page)
         {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Получает игроков из узлов
-        /// </summary>
-        /// <returns>Игроки</returns>
-        private List<Gamer> GetGamers(List<HtmlNode> nodes)
-        {
-            throw new NotImplementedException();
+            HtmlDocument nextPage;
+            HtmlNode nextPageNode = page.DocumentNode.SelectSingleNode("//div[@class='" + ClassNextPage + "']");
+
+            if (nextPageNode == null)
+            {
+                return null;
+            }
+            nextPageNode = nextPageNode.ChildNodes.FindFirst("a");
+            string URL = nextPageNode.Attributes["href"].Value;
+            nextPage = LoadPage(site + URL);
+            return nextPage;
         }
         /// <summary>
         /// Начинает парсинг
@@ -148,8 +142,20 @@ namespace DotaNet.Classes.Parser
         /// <returns></returns>
         public List<Match> Parse()
         {
-            return GetMatches();
+            HtmlDocument page = LoadPage(site + startUrl);
+
+            List<Match> matches = new List<Match>();
+
+            do
+            {
+                matches.AddRange(GetMatches(page));
+
+            } while ((page=NextPage(page))!=null);
+
+            return matches;
         }
+
+        #endregion
 
         public Parser()
         {
