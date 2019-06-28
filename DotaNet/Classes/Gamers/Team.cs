@@ -14,12 +14,12 @@ namespace DotaNet.Classes.Gamers
         /// Название команды
         /// </summary>
         [DataMember]
-        string Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Список игроков, играющих в этой команде
         /// </summary>
         [DataMember]
-        List<Gamer> Gamers { get; set; } = new List<Gamer>();
+        public List<Gamer> Gamers { get; set; } = new List<Gamer>();
         /// <summary>
         /// Добавляет игрока в команду
         /// </summary>
@@ -54,7 +54,8 @@ namespace DotaNet.Classes.Gamers
             {
                 foreach (Gamer gamer in gamers)
                 {
-                    Gamers.Add(gamer);
+                    if (gamer != null)
+                        Gamers.Add(gamer);
                 }
             }
         }

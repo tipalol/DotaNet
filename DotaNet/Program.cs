@@ -2,6 +2,7 @@
 using DotaNet.Classes.Gamers;
 using DotaNet.Classes.Database;
 using DotaNet.Classes.Parser;
+using System.Collections.Generic;
 
 namespace DotaNet
 {
@@ -9,7 +10,13 @@ namespace DotaNet
     {
         static void Main(string[] args)
         {
-            Parser.Parse();
+            List<Match> matches =  Parser.Parse();
+
+            foreach (Match match in matches)
+                Database.GetInstance().AddMatch(match);
+
+            Database.GetInstance().SaveData();
+
         }
     }
 }

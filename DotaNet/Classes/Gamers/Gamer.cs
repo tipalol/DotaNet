@@ -14,17 +14,17 @@ namespace DotaNet.Classes.Gamers
         /// Имя
         /// </summary>
         [DataMember]
-        string Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Победы
         /// </summary>
         [DataMember]
-        int Wins { get; set; }
+        public int Wins { get; set; }
         /// <summary>
         /// Поражения
         /// </summary>
         [DataMember]
-        int Looses { get; set; }
+        public int Looses { get; set; }
         /// <summary>
         /// Винрейт
         /// </summary>

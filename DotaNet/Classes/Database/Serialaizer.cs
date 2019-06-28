@@ -7,7 +7,15 @@ namespace DotaNet.Classes.Database
 {
     public class Serialaizer
     {
-        public static string Serialize(Match match)
+        public static Serialaizer instance;
+        public static Serialaizer GetInstance()
+        {
+            if (instance == null)
+                instance = new Serialaizer();
+            return instance;
+        }
+        public Serialaizer() {}
+        public string Serialize(Match match)
         {
             MemoryStream stream = new MemoryStream();
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Match));
@@ -21,7 +29,7 @@ namespace DotaNet.Classes.Database
             stream.Close();
             return Encoding.UTF8.GetString(json, 0, json.Length);
         }
-        public static Match Deserialize(string json)
+        public Match Deserialize(string json)
         {
             Match match = new Match();
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
@@ -30,8 +38,28 @@ namespace DotaNet.Classes.Database
             stream.Close();
             return match;
         }
-        public Serialaizer()
+        public string Serialize(Database database)
         {
+            MemoryStream stream = new MemoryStream();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Database));
+            serializer.WriteObject(stream, database);
+            stream.Position = 0;
+            byte[] json = stream.ToArray();
+
+
+            StreamReader streamReader = new StreamReader(stream);
+            Console.WriteLine(streamReader.ReadToEnd());
+            stream.Close();
+            return Encoding.UTF8.GetString(json, 0, json.Length);
+        }
+        public Database DeserializeData(string json)
+        {
+            Database database = new Database();
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(database.GetType());
+            database = serializer.ReadObject(stream) as Database;
+            stream.Close();
+            return database;
         }
     }
 }
