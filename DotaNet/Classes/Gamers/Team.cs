@@ -47,9 +47,16 @@ namespace DotaNet.Classes.Gamers
                 gamer.AddLoose();
             }
         }
-        public Team(string name)
+        public Team(string name, Gamer[] gamers = null)
         {
             Name = name;
+            if (gamers != null)
+            {
+                foreach (Gamer gamer in gamers)
+                {
+                    Gamers.Add(gamer);
+                }
+            }
         }
     }
 }
