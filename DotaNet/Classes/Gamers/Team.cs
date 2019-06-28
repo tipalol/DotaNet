@@ -19,7 +19,7 @@ namespace DotaNet.Classes.Gamers
         /// Список игроков, играющих в этой команде
         /// </summary>
         [DataMember]
-        List<Gamer> Gamers { get; set; } = new List<Gamer>();
+        public List<Gamer> Gamers { get; set; } = new List<Gamer>();
         /// <summary>
         /// Добавляет игрока в команду
         /// </summary>

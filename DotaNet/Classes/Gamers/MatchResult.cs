@@ -3,10 +3,10 @@ namespace DotaNet.Classes.Gamers
 {
     public struct MatchResult
     {
-        Team Left { get; set; }
-        Team Right { get; set; }
-        int ResultOfLeft { get; set; }
-        int ResultOfRight { get; set; }
+        public Team Left { get; set; }
+        public Team Right { get; set; }
+        public int ResultOfLeft { get; set; }
+        public int ResultOfRight { get; set; }
         public MatchResult(Team left, Team right, int resultOfLeft, int resultOfRight)
         {
             Left = left;

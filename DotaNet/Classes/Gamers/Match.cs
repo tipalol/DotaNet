@@ -15,12 +15,12 @@ namespace DotaNet.Classes.Gamers
         /// Левая команда-участник
         /// </summary>
         [DataMember]
-        Team Left { get; set; }
+        public Team Left { get; set; }
         /// <summary>
         /// Правая команда участник
         /// </summary>
         [DataMember]
-        Team Right { get; set; }
+        public Team Right { get; set; }
         public Match(Team left, Team right)
         {
             Left = left;
@@ -31,7 +31,14 @@ namespace DotaNet.Classes.Gamers
             this.URL = URL;
             try
             {
-                Parser.Parser.GetTeams(URL);
+                /*MatchResult matchResult = Parser.Parser.GetTeams(URL);
+                Left = matchResult.Left;
+                Right = matchResult.Right;
+                if (matchResult.ResultOfLeft > matchResult.ResultOfRight)
+                    Left.AddWin();
+                if (matchResult.ResultOfRight > matchResult.ResultOfLeft)
+                    Right.AddWin();
+                */
             }
             catch
             {
