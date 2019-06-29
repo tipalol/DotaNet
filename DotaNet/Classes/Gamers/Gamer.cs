@@ -32,11 +32,8 @@ namespace DotaNet.Classes.Gamers
         {
             get
             {
-                if (Looses == 0)
-                    return 1;
-                if ((double)Wins / Looses > 1)
-                    return 1;
-                return (double)Wins / Looses;
+                double res = Wins / (double)(Wins + Looses);
+                return res;
             }
         }
         /// <summary>

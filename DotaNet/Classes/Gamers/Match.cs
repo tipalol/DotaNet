@@ -22,70 +22,19 @@ namespace DotaNet.Classes.Gamers
         [DataMember]
         public Team Right { get; set; }
         [DataMember]
-        public MatchResult result { get; set; }
-        /// <summary>
-        /// Результат матча
-        /// </summary>
-        public Match(Team left, Team right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public int scoreLeft;
+        [DataMember]
+        public int scoreRight;
         public Match(string URL)
         {
             this.URL = URL;
             //Получение результата матча
             MatchResult matchResult = Parser.Parser.GetMatchResult(URL);
-            result = matchResult;
 
             Left = matchResult.Left;
             Right = matchResult.Right;
-            if (matchResult.ResultOfLeft > matchResult.ResultOfRight)
-            {
-                Left.AddWin();
-                foreach (Gamer gamer in Left.Gamers)
-                {
-                    foreach (Gamer enemy in Right.Gamers)
-                    {
-                        gamer.AddEnemy(enemy, 1, 0);
-                        enemy.AddEnemy(gamer, 0, 1);
-                    }
-
-                    foreach (Gamer body in Left.Gamers)
-                    {
-                        if (gamer != body)
-                        {
-                            gamer.Addbody(body, 1, 0);
-                            body.Addbody(gamer, 1, 0);
-                        }
-
-                    }
-                }
-
-                Right.AddLooses();
-            }
-            if (matchResult.ResultOfRight > matchResult.ResultOfLeft)
-            {
-                Right.AddWin();
-
-                foreach (Gamer gamer in Right.Gamers)
-                {
-                    foreach (Gamer enemy in Left.Gamers)
-                    {
-                        gamer.AddEnemy(enemy, 1, 0);
-                        enemy.AddEnemy(gamer, 0, 1);
-                    }
-
-                    foreach (Gamer body in Right.Gamers)
-                        if (gamer != body)
-                        {
-                            gamer.Addbody(body, 1, 0);
-                            body.Addbody(gamer, 1, 0);
-                        }
-                }
-
-                Left.AddLooses();
-            }
+            scoreLeft = matchResult.ResultOfLeft;
+            scoreRight = matchResult.ResultOfRight;
         }
         public Match() { }
     }

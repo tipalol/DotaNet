@@ -170,10 +170,10 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="node">узел с матчем</param>
         /// <returns></returns>
-        private static Match GetMatch(HtmlNode node)
+        private static MatchResult GetMatchResultByNode(HtmlNode node)
         {
             string URL = node.ChildNodes.FindFirst("a").Attributes["href"].Value;
-            Match result= new Match(site + URL);
+            MatchResult result = GetMatchResult(site + URL);
             return result;
         }
         /// <summary>
@@ -181,19 +181,19 @@ namespace DotaNet.Classes.Parser
         /// </summary>
         /// <param name="page">Документ с матчами</param>
         /// <returns>Матчи из узлов</returns>
-        private static List<Match> GetMatches(HtmlDocument page)
+        private static List<MatchResult> GetMatchResults(HtmlDocument page)
         {
-            List<Match> matches = new List<Match>();
+            List<MatchResult> matchResults = new List<MatchResult>();
             foreach (HtmlNode node in page.DocumentNode.SelectNodes("//div[@class='" + ClassMatchName + "']"))
             {
                 try
                 {
-                    Match newMatch = GetMatch(node);
-                    matches.Add(GetMatch(node));
+                    MatchResult newMatch = GetMatchResultByNode(node);
+                    matchResults.Add(newMatch);
                 }
                 catch (MatchParseException) { }
             }
-            return matches;
+            return matchResults;
         }
         /// <summary>
         /// Перейти на следующую страницу
@@ -218,19 +218,19 @@ namespace DotaNet.Classes.Parser
         /// Начинает парсинг
         /// </summary>
         /// <returns></returns>
-        public static List<Match> Parse()
+        public static List<MatchResult> Parse()
         {
             HtmlDocument page = LoadPage(site + startUrl);
 
-            List<Match> matches = new List<Match>();
+            List<MatchResult> matchResults = new List<MatchResult>();
 
             do
             {
-                matches.AddRange(GetMatches(page));
+                matchResults.AddRange(GetMatches(page));
 
             } while ((page=NextPage(page))!=null);
 
-            return matches;
+            return matchResults;
         }
 
         #endregion
