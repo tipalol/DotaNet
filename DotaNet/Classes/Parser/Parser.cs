@@ -237,12 +237,12 @@ namespace DotaNet.Classes.Parser
 
         #region Многопоточчная выгрузка матчей
 
-        public static List<Match> ParseThread()
+        public static List<MatchResult> ParseThread()
         {
             List<HtmlDocument> pages = GetAllPages();
             List<Thread> threads = new List<Thread>();
             List<ScanerPage> scanerPages = new List<ScanerPage>();
-            List<Match> result = new List<Match>();
+            List<MatchResult> result = new List<MatchResult>();
 
             foreach (var page in pages)
             {
@@ -290,17 +290,17 @@ namespace DotaNet.Classes.Parser
         class ScanerPage
         {
             public HtmlDocument document;
-            public List<Match> matches;
+            public List<MatchResult> matches;
 
             public ScanerPage(HtmlDocument Document)
             {
                 this.document = Document;
-                matches = new List<Match>();
+                matches = new List<MatchResult>();
             }
 
             public void GetMathes()
             {
-                matches = Parser.GetMatches(document);
+                matches = Parser.GetMatchResults(document);
             }
         }
 
@@ -310,14 +310,14 @@ namespace DotaNet.Classes.Parser
 
         //Test
 
-        public static List<Match> ParseTest()
+        public static List<MatchResult> ParseTest()
         {
             string testURL = startUrl;
             HtmlDocument page = LoadPage(site + testURL);
 
-            List<Match> matches = new List<Match>();
+            List<MatchResult> matches = new List<MatchResult>();
 
-            matches.AddRange(GetMatches(page));
+            matches.AddRange(GetMatchResults(page));
 
             return matches;
         }
