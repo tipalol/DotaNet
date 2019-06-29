@@ -87,13 +87,31 @@ namespace DotaNet.Classes.Parser
                 //left side
                 HtmlNode left = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassLeftTeam + "']");
                 string leftTeamName = GetTeamName(left);
+                string leftTeamScores = document.DocumentNode.SelectSingleNode("//div[@class='esport-match-view-info-basic-teams-left']")
+                    .SelectSingleNode(".//div[@class='esport-match-view-info-basic-teams-title']")
+                    .ChildNodes.FindFirst("a").InnerText.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace(" ", "");
                 Gamer[] leftGamers = GetGamers(left);
-                Team leftTeam = new Team(leftTeamName, leftGamers);
 
                 //rigth side
                 HtmlNode right = document.DocumentNode.SelectSingleNode("//div[@class='" + ClassRightTeam + "']");
+                string RigtTeamScores = document.DocumentNode.SelectSingleNode("//div[@class='esport-match-view-info-basic-teams-right']")
+                   .SelectSingleNode(".//div[@class='esport-match-view-info-basic-teams-title']")
+                   .ChildNodes.FindFirst("a").InnerText.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace(" ", "");
                 string rightTeamName = GetTeamName(right);
                 Gamer[] rightGamers = GetGamers(right);
+
+
+                if (leftTeamName.Replace(" ","") != leftTeamScores.Replace(" ", ""))
+                {
+                    string dop = leftTeamName;
+                    leftTeamName = rightTeamName;
+                    rightTeamName = dop;
+                    Gamer[] dops = leftGamers;
+                    leftGamers = rightGamers;
+                    rightGamers = dops;
+                }
+
+                Team leftTeam = new Team(leftTeamName, leftGamers);
                 Team rightTeam = new Team(rightTeamName, rightGamers);
 
                 var score = GetScore(document);

@@ -16,6 +16,7 @@ namespace DotaNet.Classes.Parser
             List<Gamer> allGamers = GetAllGamers(allTeams);
             List<Gamer> gamerUnique = UniqueGamers(allGamers);
             TeamUniqueGamers(allTeams, gamerUnique);
+            UpdateMatches(matchResults);
 
             List<Match> result = new List<Match>();
             foreach(MatchResult matchResult in matchResults)
@@ -117,7 +118,7 @@ namespace DotaNet.Classes.Parser
             {
                 Gamer gamerUniq = result.Find(g => g.Name == gamer.Name);
                 if (gamerUniq == null)
-                    result.Add(gamerUniq);
+                    result.Add(gamer);
             }
             return result;
         }
