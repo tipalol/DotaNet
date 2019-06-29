@@ -87,8 +87,34 @@ namespace DotaNet
                         break;
                     case 9:
                         List<Match> matchesList = new List<Match>(SortedMatch.SortedMatches(Database.GetInstance().Results.ToArray()));
-                        Database.GetInstance().Matches = matchesList;
-                        
+                        Calculator calculator = new Calculator(matchesList.ToArray());
+
+                        string[] leftTeam = new string[5];
+                        Console.WriteLine("Введите ники из левой команды");
+                        for(int i=0; i<5; i++)
+                        {
+                            leftTeam[i] = Console.ReadLine();
+                        }
+
+                        string[] rightTeam = new string[5];
+                        Console.WriteLine("Введите ники из правой команды");
+                        for (int i = 0; i < 5; i++)
+                        {
+                            rightTeam[i] = Console.ReadLine();
+                        }
+
+                        var res = calculator.ResultFight(leftTeam, rightTeam);
+
+                        Console.WriteLine("Очки левой команды: " + res.left + "\tОчки правой команды: " + res.right);
+                        Console.ReadKey();
+
+                        //string name = Console.ReadLine();
+                        //Gamer gmr = calculator.FindGamer(name);
+                        //Console.WriteLine("Всего игр: " + (gmr.Looses + gmr.Wins) + "\tПобед: " + gmr.Wins + "\tПоражений: " + gmr.Looses);
+                        //Console.ReadKey();
+
+                        //Database.GetInstance().Matches = matchesList;
+
                         break;
                     case 10:
 

@@ -38,7 +38,7 @@ namespace DotaNet.Classes.Gamers
         {
             get
             {
-                return Wins / Looses;
+                return (double)Wins/(Wins + Looses);
             }
         }
         public Relative(string gamer, int wins, int looses)

@@ -96,6 +96,24 @@ namespace DotaNet.Classes.Gamers
         {
             Looses += looses;
         }
+        public double BodyWinrate(string Name)
+        {
+            foreach(var body in Bodies)
+            {
+                if (body.GamerName == Name)
+                    return body.Winrate;
+            }
+            return 0;
+        }
+        public double EnemyWinrate(string Name)
+        {
+            foreach (var enemy in Enemies)
+            {
+                if (enemy.GamerName == Name)
+                    return enemy.Winrate;
+            }
+            return 0;
+        }
         public Gamer(string name, int wins = 0, int looses = 0)
         {
             Name = name;
