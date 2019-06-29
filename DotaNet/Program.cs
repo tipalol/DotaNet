@@ -57,8 +57,16 @@ namespace DotaNet
                         foreach (Match match in Database.GetInstance().Matches)
                             Console.WriteLine(Serialaizer.GetInstance().Serialize(match));
                         break;
+                    case 8:
+                        foreach (Team team in Database.GetInstance().Teams)
+                        {
+                            Console.WriteLine($"Название команды: {team.Name}");
+                            foreach (Gamer gamer in team.Gamers)
+                                Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
+                        }
+                        break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info, 6 - Print teams info, 7 - Print matches info");
+                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info, 6 - Print teams info, 7 - Print matches info, 8 - Print detail team");
                 input = getInt();
             }
 
