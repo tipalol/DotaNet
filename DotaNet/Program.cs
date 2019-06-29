@@ -76,7 +76,9 @@ namespace DotaNet
                         }
                         break;
                     case 9:
-
+                        List<Match> matchesList = new List<Match>(SortedMatch.SortedMatches(Database.GetInstance().Results.ToArray()));
+                        Database.GetInstance().Matches = matchesList;
+                        
                         break;
                 }
                 Console.WriteLine("1 - Загрузить базу данных из файла, 2 - Сохранить базу данных в файл, 3 - Запустить парсинг, 4 - Запустить тестовый парсинг, 5 - Распечатать сериализованных игроков, 6 - Распечатать сериализованные команды, 7 - Распечатать сериализованные матчи, 8 - Вывести инфу о командах, 9 - отсортировать матчи");
