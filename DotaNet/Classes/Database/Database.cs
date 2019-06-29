@@ -15,13 +15,13 @@ namespace DotaNet.Classes.Database
                 instance = new Database();
             return instance;
         }
-        [DataMember]
         public List<Match> Matches = new List<Match>();
-        [DataMember]
         public List<Gamer> Gamers = new List<Gamer>();
-        [DataMember]
         public List<Team> Teams = new List<Team>();
+        [DataMember]
+        public List<MatchResult> Results = new List<MatchResult>();
         const string matchDataPath = "matches.json";
+        
         /// <summary>
         /// Добавляет в базу данных инфу о:
         /// прошедшем матче,
