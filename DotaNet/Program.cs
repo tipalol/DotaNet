@@ -23,6 +23,10 @@ namespace DotaNet
                 {
                     case 1:
                         Database.GetInstance().LoadData();
+                        var matchs = Database.GetInstance().Matches;
+                        var gamers = Database.GetInstance().Gamers;
+                        var teams = Database.GetInstance().Teams;
+
                         foreach (Gamer gamer in Database.GetInstance().Gamers)
                         {
                             Console.WriteLine($"Имя: {gamer.Name}");
