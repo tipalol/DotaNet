@@ -46,8 +46,12 @@ namespace DotaNet
 
                         Database.GetInstance().SaveData();
                         break;
+                    case 5:
+                        foreach (Gamer gamer in Database.GetInstance().Gamers)
+                            Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
+                        break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test");
+                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info");
                 input = getInt();
             }
 

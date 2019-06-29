@@ -28,6 +28,19 @@ namespace DotaNet.Classes.Database
             stream.Close();
             return Encoding.UTF8.GetString(json, 0, json.Length);
         }
+        public string Serialize(Gamer gamer)
+        {
+            MemoryStream stream = new MemoryStream();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Gamer));
+            serializer.WriteObject(stream, gamer);
+            stream.Position = 0;
+            byte[] json = stream.ToArray();
+
+
+            StreamReader streamReader = new StreamReader(stream);
+            stream.Close();
+            return Encoding.UTF8.GetString(json, 0, json.Length);
+        }
         public Match Deserialize(string json)
         {
             Match match = new Match();
