@@ -54,7 +54,7 @@ namespace DotaNet.Classes.Gamers
         /// <param name="looses">Поражения</param>
         public void Addbody(Gamer body, int wins, int looses) {
             var findBody = Bodies.Find(e => e.GamerName == body.Name);
-            if (findBody.isEmpty())
+            if (findBody == null)
                 Bodies.Add(new Relative(body.Name, wins, looses));
             else
             {
@@ -72,7 +72,7 @@ namespace DotaNet.Classes.Gamers
         public void AddEnemy(Gamer enemy, int wins, int looses)
         {
             var findEnemy = Enemies.Find(e => e.GamerName == enemy.Name);
-            if (findEnemy.isEmpty())
+            if (findEnemy == null)
                 Enemies.Add(new Relative(enemy.Name, wins, looses));
             else
             {

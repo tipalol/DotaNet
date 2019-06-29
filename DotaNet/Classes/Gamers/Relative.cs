@@ -8,7 +8,7 @@ namespace DotaNet.Classes.Gamers
     /// (или против кого либо)
     /// </summary>
     [DataContract]
-    public struct Relative
+    public class Relative
     {
         public bool isEmpty()
         {
