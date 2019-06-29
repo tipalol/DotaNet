@@ -8,7 +8,7 @@ namespace DotaNet.Classes.Database
     [DataContract]
     public class Database
     {
-        static Database instance;
+        private static Database instance;
         public static Database GetInstance()
         {
             if (instance == null)
