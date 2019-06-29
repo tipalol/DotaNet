@@ -15,7 +15,13 @@ namespace DotaNet
         }
         static void Main(string[] args)
         {
-            Database.GetInstance().LoadData();
+            try
+            {
+                Database.GetInstance().LoadData();
+            } catch (Exception)
+            {
+                Console.WriteLine("Файл базы данных не найден. Создайте новый");
+            }
             int input = -1;
             while (input != 0)
             {
@@ -23,6 +29,7 @@ namespace DotaNet
                 {
                     //Загрузка базы данных из файла
                     case 1:
+
                         Database.GetInstance().LoadData();
 
                         foreach (MatchResult result in Database.GetInstance().Results)
