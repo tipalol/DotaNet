@@ -36,16 +36,16 @@ namespace DotaNet
                         Database.GetInstance().SaveData();
                         break;
                     case 3:
-                        List<Match> matches = Parser.ParseThread();
-                        foreach (Match match in matches)
-                            Database.GetInstance().AddMatch(match);
+                        List<MatchResult> matches = Parser.ParseThread();
+                        foreach (MatchResult match in matches)
+                            Database.GetInstance().AddMatchResult(match);
 
                         Database.GetInstance().SaveData();
                         break;
                     case 4:
-                        List<Match> testMatches = Parser.ParseTest();
-                        foreach (Match match in testMatches)
-                            Database.GetInstance().AddMatch(match);
+                        List<MatchResult> testMatches = Parser.ParseTest();
+                        foreach (MatchResult match in testMatches)
+                            Database.GetInstance().AddMatchResult(match);
 
                         Database.GetInstance().SaveData();
                         break;

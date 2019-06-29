@@ -21,7 +21,10 @@ namespace DotaNet.Classes.Database
         [DataMember]
         public List<MatchResult> Results = new List<MatchResult>();
         const string matchDataPath = "matches.json";
-        
+        public void AddMatchResult(MatchResult result)
+        {
+            Results.Add(result);
+        }
         /// <summary>
         /// Добавляет в базу данных инфу о:
         /// прошедшем матче,
