@@ -3,7 +3,6 @@ using DotaNet.Classes.Gamers;
 using DotaNet.Classes.Database;
 using DotaNet.Classes.Parser;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace DotaNet
 {
@@ -50,8 +49,28 @@ namespace DotaNet
 
                         Database.GetInstance().SaveData();
                         break;
+                    case 5:
+                        foreach (Gamer gamer in Database.GetInstance().Gamers)
+                            Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
+                        break;
+                    case 6:
+                        foreach (Team team in Database.GetInstance().Teams)
+                            Console.WriteLine(Serialaizer.GetInstance().Serialize(team));
+                        break;
+                    case 7:
+                        foreach (Match match in Database.GetInstance().Matches)
+                            Console.WriteLine(Serialaizer.GetInstance().Serialize(match));
+                        break;
+                    case 8:
+                        foreach (Team team in Database.GetInstance().Teams)
+                        {
+                            Console.WriteLine($"Название команды: {team.Name}");
+                            foreach (Gamer gamer in team.Gamers)
+                                Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
+                        }
+                        break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test");
+                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info, 6 - Print teams info, 7 - Print matches info, 8 - Print detail team");
                 input = getInt();
             }
 
