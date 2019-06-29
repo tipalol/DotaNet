@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using DotaNet.Classes.Gamers;
+
 namespace DotaNet.Classes.Database
 {
     [DataContract]
@@ -15,6 +16,7 @@ namespace DotaNet.Classes.Database
                 instance = new Database();
             return instance;
         }
+        [DataMember]
         public List<Match> Matches = new List<Match>();
         public List<Gamer> Gamers = new List<Gamer>();
         public List<Team> Teams = new List<Team>();

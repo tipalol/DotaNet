@@ -22,14 +22,17 @@ namespace DotaNet
                 {
                     case 1:
                         Database.GetInstance().LoadData();
-                        var matchs = Database.GetInstance().Matches;
-                        var gamers = Database.GetInstance().Gamers;
-                        var teams = Database.GetInstance().Teams;
 
-                        foreach (Gamer gamer in Database.GetInstance().Gamers)
+                        foreach (MatchResult result in Database.GetInstance().Results)
                         {
-                            Console.WriteLine($"Имя: {gamer.Name}");
-                            Console.WriteLine($"Винрейт: {gamer.Winrate}");
+                            Console.WriteLine("Матч:");
+                            Console.WriteLine($"Результат: {result.ResultOfLeft} : {result.ResultOfRight}");
+                            Console.WriteLine($"Левая команда: {result.Left.Name}");
+                            foreach (Gamer gamer in result.Left.Gamers)
+                                Console.WriteLine($"Игрок: {gamer.Name}");
+                            Console.WriteLine($"Правая команда: {result.Right.Name}");
+                            foreach (Gamer gamer in result.Right.Gamers)
+                                Console.WriteLine($"Игрок: {gamer.Name}");
                         }
                         break;
                     case 2:
@@ -70,7 +73,7 @@ namespace DotaNet
                         }
                         break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info, 6 - Print teams info, 7 - Print matches info, 8 - Print detail team");
+                Console.WriteLine("1 - Загрузить базу данных из файла, 2 - Сохранить базу данных в файл, 3 - Запустить парсинг, 4 - Запустить тестовый парсинг, 5 - Распечатать сериализованных игроков, 6 - Распечатать сериализованные команды, 7 - Распечатать сериализованные матчи, 8 - Вывести инфу о командах");
                 input = getInt();
             }
 
