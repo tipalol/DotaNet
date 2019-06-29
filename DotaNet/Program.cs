@@ -15,37 +15,43 @@ namespace DotaNet
         }
         static void Main(string[] args)
         {
+            Database.GetInstance().LoadData();
             int input = -1;
             while (input != 0)
             {
                 switch (input)
                 {
+                    //Загрузка базы данных из файла
                     case 1:
                         Database.GetInstance().LoadData();
-                        var matchs = Database.GetInstance().Matches;
-                        var gamers = Database.GetInstance().Gamers;
-                        var teams = Database.GetInstance().Teams;
 
-                        foreach (Gamer gamer in Database.GetInstance().Gamers)
+                        foreach (MatchResult result in Database.GetInstance().Results)
                         {
-                            Console.WriteLine($"Имя: {gamer.Name}");
-                            Console.WriteLine($"Винрейт: {gamer.Winrate}");
+                            Console.WriteLine("Матч:");
+                            Console.WriteLine($"Результат: {result.ResultOfLeft} : {result.ResultOfRight}");
+                            Console.WriteLine($"Левая команда: {result.Left.Name}");
+                            foreach (Gamer gamer in result.Left.Gamers)
+                                Console.WriteLine($"Игрок: {gamer.Name}");
+                            Console.WriteLine($"Правая команда: {result.Right.Name}");
+                            foreach (Gamer gamer in result.Right.Gamers)
+                                Console.WriteLine($"Игрок: {gamer.Name}");
                         }
                         break;
+                        //Сохранение базы данных в файл 
                     case 2:
                         Database.GetInstance().SaveData();
                         break;
                     case 3:
-                        List<Match> matches = Parser.ParseThread();
-                        foreach (Match match in matches)
-                            Database.GetInstance().AddMatch(match);
+                        List<MatchResult> matches = Parser.ParseThread();
+                        foreach (MatchResult match in matches)
+                            Database.GetInstance().AddMatchResult(match);
 
                         Database.GetInstance().SaveData();
                         break;
                     case 4:
-                        List<Match> testMatches = Parser.ParseTest();
-                        foreach (Match match in testMatches)
-                            Database.GetInstance().AddMatch(match);
+                        List<MatchResult> testMatches = Parser.ParseTest();
+                        foreach (MatchResult match in testMatches)
+                            Database.GetInstance().AddMatchResult(match);
 
                         Database.GetInstance().SaveData();
                         break;
@@ -69,9 +75,18 @@ namespace DotaNet
                                 Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
                         }
                         break;
+                    case 9:
+
+                        break;
                 }
-                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info, 6 - Print teams info, 7 - Print matches info, 8 - Print detail team");
-                input = getInt();
+                Console.WriteLine("1 - Загрузить базу данных из файла, 2 - Сохранить базу данных в файл, 3 - Запустить парсинг, 4 - Запустить тестовый парсинг, 5 - Распечатать сериализованных игроков, 6 - Распечатать сериализованные команды, 7 - Распечатать сериализованные матчи, 8 - Вывести инфу о командах, 9 - отсортировать матчи");
+                try
+                {
+                    input = getInt();
+                } catch (Exception)
+                {
+                    Console.WriteLine("Ты ебан, это не число");
+                }
             }
 
         }
