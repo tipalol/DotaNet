@@ -15,11 +15,13 @@ namespace DotaNet
         }
         static void Main(string[] args)
         {
+            Database.GetInstance().LoadData();
             int input = -1;
             while (input != 0)
             {
                 switch (input)
                 {
+                    //Загрузка базы данных из файла
                     case 1:
                         Database.GetInstance().LoadData();
 
@@ -35,6 +37,7 @@ namespace DotaNet
                                 Console.WriteLine($"Игрок: {gamer.Name}");
                         }
                         break;
+                        //Сохранение базы данных в файл 
                     case 2:
                         Database.GetInstance().SaveData();
                         break;
@@ -72,9 +75,18 @@ namespace DotaNet
                                 Console.WriteLine(Serialaizer.GetInstance().Serialize(gamer));
                         }
                         break;
+                    case 9:
+
+                        break;
                 }
-                Console.WriteLine("1 - Загрузить базу данных из файла, 2 - Сохранить базу данных в файл, 3 - Запустить парсинг, 4 - Запустить тестовый парсинг, 5 - Распечатать сериализованных игроков, 6 - Распечатать сериализованные команды, 7 - Распечатать сериализованные матчи, 8 - Вывести инфу о командах");
-                input = getInt();
+                Console.WriteLine("1 - Загрузить базу данных из файла, 2 - Сохранить базу данных в файл, 3 - Запустить парсинг, 4 - Запустить тестовый парсинг, 5 - Распечатать сериализованных игроков, 6 - Распечатать сериализованные команды, 7 - Распечатать сериализованные матчи, 8 - Вывести инфу о командах, 9 - отсортировать матчи");
+                try
+                {
+                    input = getInt();
+                } catch (Exception)
+                {
+                    Console.WriteLine("Ты ебан, это не число");
+                }
             }
 
         }
