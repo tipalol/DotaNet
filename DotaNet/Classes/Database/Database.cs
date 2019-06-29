@@ -66,6 +66,7 @@ namespace DotaNet.Classes.Database
                 }
             }
         }
+
         public Match GetMatch()
         {
             string json;
@@ -87,6 +88,15 @@ namespace DotaNet.Classes.Database
 
             streamWriter.Write(json);
             streamWriter.Close();
+        }
+        public void LoadData()
+        {
+            var streamReader = new StreamReader(matchDataPath);
+            string json = streamReader.ReadToEnd();
+            var data = Serialaizer.GetInstance().DeserializeData(json);
+            streamReader.Close();
+            if (data != null)
+                instance = data;
         }
         public Database()
         {

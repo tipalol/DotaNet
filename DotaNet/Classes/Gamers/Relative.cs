@@ -10,11 +10,17 @@ namespace DotaNet.Classes.Gamers
     [DataContract]
     public struct Relative
     {
+        public bool isEmpty()
+        {
+            if (GamerName == null)
+                return true;
+            return false;
+        }
         /// <summary>
         /// Игрок, с которым существует такая статистика
         /// </summary>
         [DataMember]
-        public Gamer Gamer { get; set; }
+        public string GamerName{ get; set; }
         /// <summary>
         /// Победы
         /// </summary>
@@ -35,9 +41,9 @@ namespace DotaNet.Classes.Gamers
                 return Wins / Looses;
             }
         }
-        public Relative(Gamer gamer, int wins, int looses)
+        public Relative(string gamer, int wins, int looses)
         {
-            Gamer = gamer;
+            GamerName = gamer;
             Wins = wins;
             Looses = looses;
         }

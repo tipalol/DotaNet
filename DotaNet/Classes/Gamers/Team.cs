@@ -35,6 +35,7 @@ namespace DotaNet.Classes.Gamers
             foreach (Gamer gamer in Gamers)
             {
                 gamer.AddWin();
+                
             }
         }
         /// <summary>
