@@ -226,7 +226,7 @@ namespace DotaNet.Classes.Parser
 
             do
             {
-                matchResults.AddRange(GetMatches(page));
+                matchResults.AddRange(GetMatchResults(page));
 
             } while ((page=NextPage(page))!=null);
 
