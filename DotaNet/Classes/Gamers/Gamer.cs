@@ -32,7 +32,7 @@ namespace DotaNet.Classes.Gamers
         {
             get
             {
-                return Wins / Looses;
+                return (double)Wins / (double)Looses;
             }
         }
         /// <summary>
