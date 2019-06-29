@@ -25,12 +25,8 @@ namespace DotaNet.Classes.Gamers
         public int scoreLeft;
         [DataMember]
         public int scoreRight;
-        public Match(string URL)
+        public Match(MatchResult matchResult)
         {
-            this.URL = URL;
-            //Получение результата матча
-            MatchResult matchResult = Parser.Parser.GetMatchResult(URL);
-
             Left = matchResult.Left;
             Right = matchResult.Right;
             scoreLeft = matchResult.ResultOfLeft;

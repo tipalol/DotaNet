@@ -16,8 +16,62 @@ namespace DotaNet.Classes.Parser
             List<Gamer> allGamers = GetAllGamers(allTeams);
             List<Gamer> gamerUnique = UniqueGamers(allGamers);
             TeamUniqueGamers(allTeams, gamerUnique);
-            return new Match[1];
 
+            List<Match> result = new List<Match>();
+            foreach(MatchResult matchResult in matchResults)
+            {
+                result.Add(new Match(matchResult));
+            }
+
+            return result.ToArray();
+        }
+
+        private static void UpdateMatches(MatchResult[] matches)
+        {
+            foreach(MatchResult match in matches)
+            {
+                if(match.ResultOfLeft>match.ResultOfRight)
+                {
+
+                    AddWinLeft(match.Left, match.Right);
+                }
+                else if (match.ResultOfRight > match.ResultOfLeft)
+                {
+                    AddWinLeft(match.Right, match.Left);
+                }
+            }
+        }
+
+        private static void AddWinLeft(Team left, Team right)
+        {
+            left.AddWin();
+            right.AddLooses();
+            foreach (Gamer gamer in left.Gamers)
+            {
+                foreach (Gamer gamerTwo in left.Gamers)
+                {
+                    if (gamerTwo == gamer)
+                        continue;
+                    gamer.Addbody(gamerTwo, 1, 0);
+                }
+                foreach (Gamer gamerTwo in right.Gamers)
+                {
+                    gamer.AddEnemy(gamerTwo, 1, 0);
+                }
+            }
+            foreach (Gamer gamer in right.Gamers)
+            {
+                foreach (Gamer gamerTwo in right.Gamers)
+                {
+                    if (gamerTwo == gamer)
+                        continue;
+                    gamer.Addbody(gamerTwo, 0, 1);
+                }
+                foreach (Gamer gamerTwo in left.Gamers)
+                {
+                    gamer.AddEnemy(gamerTwo, 0, 1);
+                }
+            }
         }
 
         private static void TeamUniqueGamers(Team[] teams, List<Gamer> gamers)

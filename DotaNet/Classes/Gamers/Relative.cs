@@ -12,7 +12,7 @@ namespace DotaNet.Classes.Gamers
     {
         public bool isEmpty()
         {
-            if (GamerName == null)
+            if (GamerName == "")
                 return true;
             return false;
         }
@@ -20,7 +20,7 @@ namespace DotaNet.Classes.Gamers
         /// Игрок, с которым существует такая статистика
         /// </summary>
         [DataMember]
-        public string GamerName{ get; set; }
+        public string GamerName { get; set; }
         /// <summary>
         /// Победы
         /// </summary>
