@@ -75,6 +75,8 @@ namespace DotaNet
                             Console.WriteLine(Serialaizer.GetInstance().Serialize(match));
                         break;
                     case 8:
+
+
                         foreach (Team team in Database.GetInstance().Teams)
                         {
                             Console.WriteLine($"Название команды: {team.Name}");

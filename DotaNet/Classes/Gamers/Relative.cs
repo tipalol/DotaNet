@@ -12,7 +12,7 @@ namespace DotaNet.Classes.Gamers
     {
         public bool isEmpty()
         {
-            if (GamerName == "")
+            if (GamerName == "" || GamerName == null)
                 return true;
             return false;
         }

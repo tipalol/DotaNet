@@ -61,7 +61,7 @@ namespace DotaNet.Classes.Gamers
                 findBody.Wins += wins;
                 findBody.Looses += looses;
             }
-                
+            
         }
         /// <summary>
         /// Добавляет информацию об играх против игрока
