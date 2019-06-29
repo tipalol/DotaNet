@@ -6,6 +6,7 @@ using System.Text;
 using HtmlAgilityPack;
 using DotaNet.Classes.Gamers;
 using System.Linq;
+using System.Threading;
 
 namespace DotaNet.Classes.Parser
 {
@@ -231,6 +232,83 @@ namespace DotaNet.Classes.Parser
 
             return matches;
         }
+
+        #endregion
+
+        #region Многопоточчная выгрузка матчей
+
+        public static List<Match> ParseThread()
+        {
+            List<HtmlDocument> pages = GetAllPages();
+            List<Thread> threads = new List<Thread>();
+            List<ScanerPage> scanerPages = new List<ScanerPage>();
+            List<Match> result = new List<Match>();
+
+            foreach (var page in pages)
+            {
+                ScanerPage scaner = new ScanerPage(page);
+                scanerPages.Add(scaner);
+                Thread thread = new Thread(new ThreadStart(scaner.GetMathes));
+                threads.Add(thread);
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Start();
+            }
+
+            int countRunningThreads;
+            do
+            {
+                countRunningThreads = (from thread in threads
+                                       where thread.ThreadState != ThreadState.Stopped
+                                       select thread).Count();
+                Thread.Sleep(10000);
+            } while (countRunningThreads != 0);
+
+            foreach (var scaner in scanerPages)
+            {
+                result.AddRange(scaner.matches);
+            }
+
+            return result;
+        }
+
+        public static List<HtmlDocument> GetAllPages()
+        {
+            HtmlDocument document = LoadPage(site + startUrl);
+            List<HtmlDocument> pagesUrl = new List<HtmlDocument>();
+
+            do
+            {
+                pagesUrl.Add(document);
+            } while ((document = NextPage(document)) != null);
+
+            return pagesUrl;
+        }
+
+        class ScanerPage
+        {
+            public HtmlDocument document;
+            public List<Match> matches;
+
+            public ScanerPage(HtmlDocument Document)
+            {
+                this.document = Document;
+                matches = new List<Match>();
+            }
+
+            public void GetMathes()
+            {
+                matches = Parser.GetMatches(document);
+            }
+        }
+
+        #endregion
+
+        #region Test
+
+        //Test
 
         public static List<Match> ParseTest()
         {

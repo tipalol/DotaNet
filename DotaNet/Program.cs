@@ -33,7 +33,7 @@ namespace DotaNet
                         Database.GetInstance().SaveData();
                         break;
                     case 3:
-                        List<Match> matches = Parser.Parse();
+                        List<Match> matches = Parser.ParseThread();
                         foreach (Match match in matches)
                             Database.GetInstance().AddMatch(match);
 
@@ -52,6 +52,20 @@ namespace DotaNet
                         break;
                 }
                 Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test, 5 - Print gamers info");
+                input = getInt();
+                            Database.GetInstance().AddMatch(match);
+
+                        Database.GetInstance().SaveData();
+                        break;
+                    case 4:
+                        List<Match> testMatches = Parser.ParseTest();
+                        foreach (Match match in testMatches)
+                            Database.GetInstance().AddMatch(match);
+
+                        Database.GetInstance().SaveData();
+                        break;
+                }
+                Console.WriteLine("1 - Load, 2 - Save, 3 - Parse, 4 - Parse test");
                 input = getInt();
             }
 
