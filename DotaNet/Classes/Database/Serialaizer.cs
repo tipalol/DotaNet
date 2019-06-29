@@ -54,6 +54,28 @@ namespace DotaNet.Classes.Database
             stream.Close();
             return Encoding.UTF8.GetString(json, 0, json.Length);
         }
+        public string Serialize(MatchResult match)
+        {
+            MemoryStream stream = new MemoryStream();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(MatchResult));
+            serializer.WriteObject(stream, match);
+            stream.Position = 0;
+            byte[] json = stream.ToArray();
+
+
+            StreamReader streamReader = new StreamReader(stream);
+            stream.Close();
+            return Encoding.UTF8.GetString(json, 0, json.Length);
+        }
+        public MatchResult DeserializeResult(string json)
+        {
+            MatchResult matchResult = new MatchResult();
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(matchResult.GetType());
+            matchResult = (MatchResult) serializer.ReadObject(stream);
+            stream.Close();
+            return matchResult;
+        }
         public Match Deserialize(string json)
         {
             Match match = new Match();
